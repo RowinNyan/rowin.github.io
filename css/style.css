@@ -1,0 +1,280 @@
+/* =========================================
+   1. 设计系统 (Design System) - 核心变量定义
+   ========================================= */
+:root {
+    /* --- 色彩方案 (Color Palette) --- */
+    /* 主色：温和的蓝灰色，用于导航、重点文字 */
+    --primary-color: #546e7a;
+    /* 背景色：极浅的灰白色，保护视力 */
+    --bg-color: #f8f9fa;
+    /* 表面色：纯白，用于卡片、导航栏 */
+    --surface-color: #ffffff;
+    /* 文本色：深灰主标题，中灰副标题 */
+    --text-main: #2c3e50;
+    --text-secondary: #7f8c8d;
+    /* 强调色：低饱和度绿色，用于交互反馈 */
+    --accent-color: #66bb6a;
+    /* 边框色 */
+    --border-color: #eaeaea;
+
+    /* --- 间距与尺寸 (Spacing & Sizing) --- */
+    /* 基础间距单位 8px */
+    --spacing-unit: 8px;
+    --spacing-sm: calc(var(--spacing-unit) * 1);  /* 8px */
+    --spacing-md: calc(var(--spacing-unit) * 2);  /* 16px */
+    --spacing-lg: calc(var(--spacing-unit) * 4);  /* 32px */
+    
+    /* 圆角 */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+
+    /* --- 动画 (Animation) --- */
+    --transition-smooth: all 0.3s ease;
+    --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+    --shadow-hover: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+/* =========================================
+   2. 全局重置 (Global Reset)
+   ========================================= */
+* {
+    box-sizing: border-box; /* 让内边距不撑大盒子 */
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    line-height: 1.6;
+    /* 确保页脚始终在底部：Flex 布局 */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition-smooth);
+}
+
+ul {
+    list-style: none;
+}
+
+/* =========================================
+   3. 布局容器 (Layout Containers)
+   ========================================= */
+.main-content {
+    /* 占据剩余空间，把页脚顶下去 */
+    flex: 1;
+    width: 100%;
+    max-width: 1000px; /* 限制内容最大宽度，防止在大屏上太散 */
+    margin: 0 auto;    /* 居中 */
+    padding: var(--spacing-lg) var(--spacing-md);
+}
+
+/* =========================================
+   4. 组件：导航栏 (Navbar)
+   ========================================= */
+.site-header {
+    background-color: rgba(255, 255, 255, 0.9); /* 半透明背景 */
+    backdrop-filter: blur(10px); /* 毛玻璃效果 (现代化触感) */
+    position: sticky; /* 粘性定位，滚动时吸顶 */
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.navbar {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+    height: 60px;
+    display: flex;
+    justify-content: space-between; /*两端对齐：Logo左，链接右*/
+    align-items: center;
+}
+
+.logo a {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    letter-spacing: 0.5px;
+}
+
+.nav-links {
+    display: flex;
+    gap: var(--spacing-md);
+}
+
+.nav-links a {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--primary-color);
+    background-color: rgba(84, 110, 122, 0.1); /* 淡淡的主色背景 */
+}
+
+/* =========================================
+   5. 组件：卡片 (Cards)
+   ========================================= */
+.nav-cards-container {
+    display: grid;
+    /* 响应式网格：自动适应宽度，最小300px */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+}
+
+.card {
+    background-color: var(--surface-color);
+    padding: var(--spacing-lg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition-smooth);
+    /* 也是一个 Flex 容器，让按钮沉底 */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+}
+
+/* 交互：悬停时上浮 */
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-hover);
+    border-color: transparent;
+}
+
+.card h2 {
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+}
+
+.card p {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+    flex-grow: 1; /* 撑开空间 */
+}
+
+/* =========================================
+   6. 组件：按钮 (Buttons)
+   ========================================= */
+.btn {
+    display: inline-block;
+    padding: 8px 24px;
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.btn:hover {
+    background-color: var(--accent-color); /* 悬停变色 */
+    transform: scale(1.02);
+}
+
+/* =========================================
+   7. 区域样式 (Sections)
+   ========================================= */
+.hero-section {
+    text-align: center;
+    padding: var(--spacing-lg) 0;
+    margin-bottom: var(--spacing-lg);
+}
+
+.hero-section h1 {
+    font-size: 2.5rem;
+    color: var(--text-main);
+    margin-bottom: var(--spacing-sm);
+}
+
+.tagline {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+/* 横向滚动展示区 (用于二次元图片) */
+.showcase-section h3 {
+    margin-bottom: var(--spacing-md);
+    border-left: 4px solid var(--primary-color);
+    padding-left: var(--spacing-sm);
+}
+
+.image-scroller {
+    display: flex;
+    gap: var(--spacing-md);
+    overflow-x: auto; /* 允许横向滚动 */
+    padding-bottom: var(--spacing-md); /* 留出滚动条空间 */
+}
+
+.placeholder-box {
+    min-width: 200px;
+    height: 120px;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #888;
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   8. 页脚 (Footer)
+   ========================================= */
+.site-footer {
+    background-color: var(--surface-color);
+    border-top: 1px solid var(--border-color);
+    padding: var(--spacing-lg);
+    text-align: center;
+    color: var(--text-secondary);
+    margin-top: auto; /* 配合 Body 的 Flex 布局使用 */
+}
+
+.social-links {
+    margin-top: var(--spacing-sm);
+}
+
+.social-links a {
+    margin: 0 var(--spacing-sm);
+    font-size: 0.9rem;
+    opacity: 0.8;
+}
+
+.social-links a:hover {
+    opacity: 1;
+    color: var(--primary-color);
+}
+
+/* =========================================
+   9. 移动端适配 (Mobile Responsive)
+   ========================================= */
+@media (max-width: 600px) {
+    .hero-section h1 {
+        font-size: 1.8rem;
+    }
+    
+    .navbar {
+        flex-direction: column; /* 手机上垂直排列 */
+        height: auto;
+        padding: var(--spacing-sm);
+    }
+
+    .nav-links {
+        margin-top: var(--spacing-sm);
+        gap: var(--spacing-sm);
+    }
+}
